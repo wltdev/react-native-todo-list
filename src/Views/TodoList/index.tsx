@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
-import { ScrollView, View, Text, StyleSheet, Keyboard, TouchableOpacity } from 'react-native'
+import React, { useState, FC } from 'react'
+import { ScrollView, View, Text, Keyboard, TouchableOpacity } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { COLORS } from '@/assets/common'
 import { RenderItem } from '@/components/RenderItem'
+import { observeTodos, TODO, saveTodo, removeTodo } from '@/database/actions/todoActions'
+import withObservables from '@nozbe/with-observables'
+
+import { styles } from './styles'
+// import database from '@/database/index.native'
 
 const LIST = [
   {
@@ -21,20 +26,15 @@ const LIST = [
   }
 ]
 
-export const TodoList = () => {
+const TodoList: FC<{ todos: TODO[] }> = ({ todos }) => {
   const [newItemTitle, setNewItemTitle] = useState('')
-  const [items, setItems] = useState(LIST)
 
   const saveItem = () => {
     if (newItemTitle.length) {
-      setItems((previous) => [...previous, { title: newItemTitle, description: 'ajkshdkjahskjd' }])
+      saveTodo({ title: newItemTitle, description: '' })
       setNewItemTitle('')
       Keyboard.dismiss()
     }
-  }
-
-  const removeItem = (title: string) => {
-    setItems((previous) => previous.filter((item) => item.title !== title))
   }
 
   return (
@@ -57,8 +57,8 @@ export const TodoList = () => {
       </View>
       <View style={styles.scrollview}>
         <ScrollView>
-          {items.map((item, index) => (
-            <RenderItem key={index} {...item} removeItem={() => removeItem(item.title)} />
+          {todos.map((item, index) => (
+            <RenderItem key={index} item={item} removeItem={() => removeTodo(item)} />
           ))}
         </ScrollView>
       </View>
@@ -66,50 +66,10 @@ export const TodoList = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    padding: 16
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '800',
-    textAlign: 'center',
-    marginBottom: 20
-  },
-  scrollview: {
-    flex: 1,
-    marginTop: 20,
-    borderRadius: 10
-    // borderWidth: 1,
-    // backgroundColor: COLORS.secondary,
-    // elevation: 10,
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84
-    // height: '100%'
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 1
-  },
-  input: {
-    flex: 1,
-    height: 50,
-    marginRight: 10,
-    backgroundColor: COLORS.background
-  },
-  iconContainer: {
-    height: 50,
-    width: 50,
-    backgroundColor: COLORS.primary,
-    borderRadius: 5,
-    elevation: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
+const enhance = withObservables([], () => {
+  return {
+    todos: observeTodos()
   }
 })
+
+export default enhance(TodoList)
