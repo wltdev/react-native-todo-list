@@ -1,13 +1,5 @@
 import React, { useState } from 'react'
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  Keyboard,
-  TouchableOpacity,
-  Dimensions
-} from 'react-native'
+import { ScrollView, View, Text, StyleSheet, Keyboard, TouchableOpacity } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -16,13 +8,16 @@ import { RenderItem } from '@/components/RenderItem'
 
 const LIST = [
   {
-    title: 'Item 1'
+    title: 'Item 1',
+    description: 'ajkshdkjashkjdhakjashdjkahskjadhkjaashdksjhasjkdhkjah'
   },
   {
-    title: 'Item 2'
+    title: 'Item 2',
+    description: 'ajkshdkjashkjdhakjashdjkahskjadhkjaashdksjhasjkdhkjah'
   },
   {
-    title: 'Item 3'
+    title: 'Item 3',
+    description: 'ajkshdkjashkjdhakjashdjkahskjadhkjaashdksjhasjkdhkjah'
   }
 ]
 
@@ -32,7 +27,7 @@ export const TodoList = () => {
 
   const saveItem = () => {
     if (newItemTitle.length) {
-      setItems((previous) => [...previous, { title: newItemTitle }])
+      setItems((previous) => [...previous, { title: newItemTitle, description: 'ajkshdkjahskjd' }])
       setNewItemTitle('')
       Keyboard.dismiss()
     }
@@ -60,12 +55,13 @@ export const TodoList = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <ScrollView style={styles.scrollview}>
-        {items.map((item, index) => (
-          <RenderItem key={index} {...item} removeItem={() => removeItem(item.title)} />
-        ))}
-      </ScrollView>
+      <View style={styles.scrollview}>
+        <ScrollView>
+          {items.map((item, index) => (
+            <RenderItem key={index} {...item} removeItem={() => removeItem(item.title)} />
+          ))}
+        </ScrollView>
+      </View>
     </>
   )
 }
@@ -82,7 +78,19 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   scrollview: {
-    marginTop: 20
+    flex: 1,
+    marginTop: 20,
+    borderRadius: 10
+    // borderWidth: 1,
+    // backgroundColor: COLORS.secondary,
+    // elevation: 10,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84
+    // height: '100%'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -98,9 +106,9 @@ const styles = StyleSheet.create({
   iconContainer: {
     height: 50,
     width: 50,
-    backgroundColor: COLORS.greenDark,
+    backgroundColor: COLORS.primary,
     borderRadius: 5,
-    elevation: 10,
+    elevation: 5,
     justifyContent: 'center',
     alignItems: 'center'
   }

@@ -9,7 +9,7 @@ const App = () => {
   return (
     <>
       <PaperProvider>
-        <StatusBar backgroundColor={COLORS.greenDark} barStyle="light-content" />
+        <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
         <SafeAreaView style={styles.root}>
           <TodoList />
         </SafeAreaView>

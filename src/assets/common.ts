@@ -1,8 +1,10 @@
 export const COLORS = {
-  background: '#f0f8ff',
-  primary: '#23606E',
-  secondary: '#FACFCE',
-  greenLight: '#008F8C',
+  background: '#D8F3DC',
+  primary: '#355070',
+  secondary: '#6D597A',
+  blueLigth: '#598392',
+  blueDark: '#124559',
+  greenLight: '#AEC3B0',
   green: '#015958',
   greenDark: '#023535',
   darkred: '#8B0000'
